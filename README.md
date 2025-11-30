@@ -1,6 +1,10 @@
-# Frontend EOL Checker Plugin
+# Claude Plugin Marketplace
 
-フロントエンドプロジェクトの依存ライブラリのEOL（End of Life）状況を調査し、アップデート計画を作成するClaude Codeプラグインです。
+Claude Codeプラグインのマーケットプレイスリポジトリです。
+
+## fe-eol-checker
+
+フロントエンドプロジェクトの依存ライブラリのEOL（End of Life）状況を調査し、アップデート計画を作成するプラグインです。
 
 ## 機能
 
