@@ -36,9 +36,9 @@ Claude Code内で以下のコマンドを実行:
 
 ```bash
 git clone https://github.com/snhrm/claude-fe-eol-plugin.git
-cp -r claude-fe-eol-plugin/skills /path/to/your-project/.claude/
-cp -r claude-fe-eol-plugin/agents /path/to/your-project/.claude/
-cp -r claude-fe-eol-plugin/commands /path/to/your-project/.claude/
+cp -r claude-fe-eol-plugin/plugin/skills /path/to/your-project/.claude/
+cp -r claude-fe-eol-plugin/plugin/agents /path/to/your-project/.claude/
+cp -r claude-fe-eol-plugin/plugin/commands /path/to/your-project/.claude/
 ```
 
 ## アンインストール
@@ -152,18 +152,21 @@ EOL計画出力先: docs/eol-plan.md
 ```
 claude-fe-eol-plugin/
 ├── .claude-plugin/
-│   └── plugin.json          # プラグイン設定
-├── commands/
-│   └── eol-plan.md          # /eol-plan コマンド
-├── agents/
-│   └── library-update-analyzer.md  # サブエージェント
-├── skills/
-│   ├── library-release-checker/
-│   │   └── SKILL.md         # リリース情報調査スキル
-│   ├── dependency-analyzer/
-│   │   └── SKILL.md         # 依存関係分析スキル
-│   └── code-impact-checker/
-│       └── SKILL.md         # コード影響分析スキル
+│   └── marketplace.json     # マーケットプレイス設定
+├── plugin/
+│   ├── .claude-plugin/
+│   │   └── plugin.json      # プラグイン設定
+│   ├── commands/
+│   │   └── eol-plan.md      # /eol-plan コマンド
+│   ├── agents/
+│   │   └── library-update-analyzer.md  # サブエージェント
+│   └── skills/
+│       ├── library-release-checker/
+│       │   └── SKILL.md     # リリース情報調査スキル
+│       ├── dependency-analyzer/
+│       │   └── SKILL.md     # 依存関係分析スキル
+│       └── code-impact-checker/
+│           └── SKILL.md     # コード影響分析スキル
 └── README.md
 ```
 
