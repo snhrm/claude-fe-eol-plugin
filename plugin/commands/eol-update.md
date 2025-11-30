@@ -75,8 +75,37 @@ ls bun.lockb bun.lock pnpm-lock.yaml yarn.lock package-lock.json 2>/dev/null | h
 ls .nvmrc .node-version .tool-versions mise.toml .mise.toml 2>/dev/null | head -1
 
 # lint/testコマンドの特定
-cat package.json | grep -A5 '"scripts"'
+cat package.json | grep -A10 '"scripts"'
 ```
+
+### 1.4 lint:fixコマンドの確認・追加
+
+package.jsonに `lint:fix` コマンドがあるか確認:
+
+```bash
+grep '"lint:fix"' package.json
+```
+
+**lint:fixコマンドがない場合は追加する**:
+
+```json
+{
+  "scripts": {
+    "lint:fix": "eslint src --ext .js,.jsx,.ts,.tsx --fix && tsc --noEmit"
+  }
+}
+```
+
+| プロジェクト構成 | 推奨lint:fixコマンド |
+|----------------|---------------------|
+| ESLint + TypeScript | `eslint src --ext .js,.jsx,.ts,.tsx --fix && tsc --noEmit` |
+| Next.js | `next lint --fix && tsc --noEmit` |
+| Biome | `biome check --write src && tsc --noEmit` |
+
+**注意**:
+- `--fix` でESLintの自動修正を実行
+- `tsc --noEmit` で型チェックのみ実行（ファイル出力なし）
+- srcディレクトリは実際のプロジェクト構成に合わせて調整
 
 ---
 
@@ -168,20 +197,34 @@ API対応表:
 
 ---
 
-## Step 4: lint/test実行・結果確認
+## Step 4: lint:fix/test実行・結果確認
 
 各フェーズ完了後に必ず実行:
 
 ```bash
-# lint
-{lint コマンド}
+# 1. lint:fix（ESLint自動修正 + TypeScript型チェック）
+{pm} run lint:fix
 
-# test
-{test コマンド}
+# 2. test
+{pm} run test
 
-# build（オプション）
-{build コマンド}
+# 3. build（オプション）
+{pm} run build
 ```
+
+### 実行順序の理由
+
+1. **lint:fix を最初に実行**
+   - ESLintの自動修正でコードスタイルを統一
+   - TypeScriptの型エラーを早期発見
+   - 型エラーがあるとtestやbuildも失敗するため先に確認
+
+2. **test を実行**
+   - 型が通った状態でテストを実行
+   - 破壊的変更による挙動変化を検知
+
+3. **build を最後に実行**
+   - 最終的な成果物が生成できることを確認
 
 ### 結果の判定
 
@@ -202,10 +245,10 @@ API対応表:
 ### Phase {N}: {フェーズ名}
 
 **確認項目**:
-- [x] `npm run lint` 成功  ← 更新
-- [x] `npm run test` 成功  ← 更新
-- [x] ビルド成功           ← 更新
-- [ ] 動作確認             ← ユーザーに確認を促す
+- [x] `{pm} run lint:fix` 成功  ← 更新
+- [x] `{pm} run test` 成功      ← 更新
+- [x] ビルド成功                 ← 更新
+- [ ] 動作確認                   ← ユーザーに確認を促す
 ```
 
 ---

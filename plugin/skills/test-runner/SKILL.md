@@ -12,7 +12,41 @@ allowed-tools: Bash, Read, Grep
 
 ## コマンド実行
 
-### Lint
+### lint:fix（推奨）
+
+ESLint自動修正 + TypeScript型チェックを実行:
+
+```bash
+# npm
+npm run lint:fix
+
+# yarn
+yarn lint:fix
+
+# pnpm
+pnpm lint:fix
+
+# bun
+bun run lint:fix
+```
+
+**lint:fixコマンドがない場合はpackage.jsonに追加**:
+
+```json
+{
+  "scripts": {
+    "lint:fix": "eslint src --ext .js,.jsx,.ts,.tsx --fix && tsc --noEmit"
+  }
+}
+```
+
+| プロジェクト構成 | 推奨lint:fixコマンド |
+|----------------|---------------------|
+| ESLint + TypeScript | `eslint src --ext .js,.jsx,.ts,.tsx --fix && tsc --noEmit` |
+| Next.js | `next lint --fix && tsc --noEmit` |
+| Biome | `biome check --write src && tsc --noEmit` |
+
+### Lint（従来）
 
 ```bash
 # npm
@@ -27,7 +61,7 @@ pnpm lint
 # bun
 bun run lint
 
-# 自動修正
+# 自動修正（--fix オプション）
 npm run lint -- --fix
 yarn lint --fix
 pnpm lint --fix
